@@ -3,6 +3,15 @@ const { Todo } = require("../mongo");
 const router = express.Router();
 const { createClient } = require("redis");
 
+let client;
+const initRedis = async () => {
+  client = createClient();
+  client.on("error", (err) => console.log("Redis Client Error", err));
+  await client.connect();
+};
+
+initRedis();
+
 /* GET todos listing. */
 router.get("/", async (_, res) => {
   const todos = await Todo.find({});
@@ -15,12 +24,9 @@ router.post("/", async (req, res) => {
     text: req.body.text,
     done: false,
   });
-  const client = await createClient()
-    .on("error", (err) => console.log("Redis Client Error", err))
-    .connect();
+
   const value = await client.get("total_todos");
   await client.set("total_todos", Number(value) + 1);
-  client.destroy();
   res.send(todo);
 });
 
@@ -55,13 +61,7 @@ singleRouter.put("/", async (req, res) => {
 
 /* GET statistics. */
 router.get("/statistics", async (req, res) => {
-  const client = await createClient()
-    .on("error", (err) => console.log("Redis Client Error", err))
-    .connect();
-
   const value = await client.get("total_todos");
-  client.destroy();
-
   res.json({ added_todos: Number(value) });
 });
 
