@@ -1,0 +1,26 @@
+docker exec -it todo-backend-redis-1 bash
+root@ae089ed4f18c:/data# KEYS *total_todos*
+bash: KEYS: command not found
+root@ae089ed4f18c:/data# redis-cli
+127.0.0.1:6379> KEYS *total_todos*
+1) "total_todos"
+127.0.0.1:6379> KEYS *
+1) "total_todos"
+2) "added_todos"
+127.0.0.1:6379> Get "total_todos"
+"2"
+127.0.0.1:6379> SE
+(error) ERR unknown command 'SE'
+127.0.0.1:6379> SET "total_todos" 9001
+OK
+127.0.0.1:6379> Get "total_todos"
+"9001"
+127.0.0.1:6379> SET "total_todos" 9001
+OK
+127.0.0.1:6379> DEL "total_todos"
+(integer) 1
+127.0.0.1:6379> KEYS *
+1) "added_todos"
+127.0.0.1:6379> exit
+root@ae089ed4f18c:/data# exit
+exit
