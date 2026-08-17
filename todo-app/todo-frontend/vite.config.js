@@ -10,6 +10,7 @@ export default defineConfig({
     setupFiles: "./testSetup.js",
   },
   server: {
+    allowedHosts: ["app", "localhost"],
     watch: {
       usePolling: true,
       interval: 100,
