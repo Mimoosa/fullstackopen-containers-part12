@@ -9,5 +9,3 @@ services:
     ports:
       - 5173:5173
     container_name: todo-frontend-dev # This will name the container hello-front-dev
-    environment:
-      - VITE_BACKEND_URL=http://localhost:3000
