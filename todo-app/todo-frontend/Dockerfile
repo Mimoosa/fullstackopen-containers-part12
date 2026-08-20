@@ -6,8 +6,6 @@ COPY . .
 
 RUN npm ci
 
-ENV VITE_BACKEND_URL=http://localhost:3000
-
 RUN npm run test
 
 # The first FROM is now a stage called build-stage
@@ -15,11 +13,11 @@ FROM node:24 AS build-stage
 
 WORKDIR /usr/src/app
 
-COPY --from=test-stage /usr/src/app /usr/src/app
+COPY --from=test-stage /usr/src/app/package.json ./package.json
+COPY --from=test-stage /usr/src/app/package-lock.json ./package-lock.json
 
 RUN npm ci
-
-ENV VITE_BACKEND_URL=http://localhost:3000
+COPY . .
 
 RUN npm run build
 
