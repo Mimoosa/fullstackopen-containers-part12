@@ -12,9 +12,7 @@ const TodoView = () => {
   console.log("isArray:", Array.isArray(todos));
 
   const refreshTodos = async () => {
-    const { data } = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/todos`,
-    );
+    const { data } = await axios.get("/todos");
     setTodos(data);
   };
 
@@ -45,7 +43,7 @@ const TodoView = () => {
 
   return (
     <>
-      <h1>Todos App</h1>
+      <h1>Todos</h1>
       <Form createTodo={createTodo} />
       <List todos={todos} deleteTodo={deleteTodo} completeTodo={completeTodo} />
     </>
