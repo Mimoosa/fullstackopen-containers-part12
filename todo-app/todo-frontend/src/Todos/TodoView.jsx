@@ -21,20 +21,17 @@ const TodoView = () => {
   }, []);
 
   const createTodo = async (todo) => {
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/todos`,
-      todo,
-    );
+    const { data } = await axios.post("/todos", todo);
     setTodos([...todos, data]);
   };
 
   const deleteTodo = async (todo) => {
-    await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/todos/${todo._id}`);
+    await axios.delete(`$/todos/${todo._id}`);
     refreshTodos();
   };
 
   const completeTodo = async (todo) => {
-    await axios.put(`${import.meta.env.VITE_BACKEND_URL}/todos/${todo._id}`, {
+    await axios.put(`/todos/${todo._id}`, {
       text: todo.text,
       done: true,
     });

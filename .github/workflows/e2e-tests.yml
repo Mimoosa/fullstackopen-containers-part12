@@ -2,13 +2,13 @@ name: E2E Tests
 
 on:
   push:
-    branches: [ xmain, xmaster ]
+    branches: [main, master]
 
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Build todo-backend image
         working-directory: ./todo-app/todo-backend
@@ -35,7 +35,7 @@ jobs:
           echo "Waiting for nginx to be ready on port 8080..."
           timeout 120 bash -c 'until curl -f http://localhost:8080 > /dev/null 2>&1; do sleep 2; done'
           echo "Services are ready!"
-          
+
       - name: Check running containers
         run: docker ps
 

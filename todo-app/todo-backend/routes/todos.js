@@ -25,8 +25,8 @@ router.post("/", async (req, res) => {
     done: false,
   });
 
-  const value = await client.get("total_todos");
-  await client.set("total_todos", Number(value) + 1);
+  const value = await client.get("added_todos");
+  await client.set("added_todos", Number(value) + 1);
   res.send(todo);
 });
 
@@ -53,16 +53,13 @@ singleRouter.get("/", async (req, res) => {
 
 /* PUT todo. */
 singleRouter.put("/", async (req, res) => {
-  const { done } = req.body;
-  req.todo.done = done;
+  const { text, done } = req.body;
+
+  if (text !== undefined) req.todo.text = text;
+  if (done !== undefined) req.todo.done = done;
+
   const result = await req.todo.save();
   res.json(result);
-});
-
-/* GET statistics. */
-router.get("/statistics", async (req, res) => {
-  const value = await client.get("total_todos");
-  res.json({ added_todos: Number(value) });
 });
 
 router.use("/:id", findByIdMiddleware, singleRouter);
